@@ -50,12 +50,13 @@ jobs:
           
           if [ ! -z $INDEX_EXISTS ] 
           then
-            echo "::set-output name=first-time-run::false"
             echo "not a first time run"
           else
-            echo "::set-output name=first-time-run::true"
-            echo "### :rocket: - you are on your way, but first you need to sync content to the wiki first before the reverse can happen else you will lose data " >> $GITHUB_STEP_SUMMARY
-            echo "## this can be done by running this job manually on your default branch " > $GITHUB_STEP_SUMMARY
+            OUTPUT="### :rocket: - you are on your way, but first you need to sync content to the wiki first before the reverse can happen else you will lose data\n
+                    ## this can be done by running this job manually on your default branch\n
+                    ## create a md file in docs named Home.md to pass this step"
+            echo -e $OUTPUT >> $GITHUB_STEP_SUMMARY
+            exit 1
           fi
         shell: bash
       - name: Create branch first
